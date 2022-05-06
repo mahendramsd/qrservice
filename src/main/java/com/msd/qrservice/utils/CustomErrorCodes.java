@@ -4,7 +4,10 @@ import org.springframework.http.HttpStatus;
 
 public enum CustomErrorCodes {
     USER_ALREADY_EXIST(1000, "User Name already exist", HttpStatus.BAD_REQUEST),
-    USER_ROLE_NOT_FOUNT(1001, "User role not found", HttpStatus.BAD_REQUEST);
+    USER_ROLE_NOT_FOUNT(1001, "User role not found", HttpStatus.BAD_REQUEST),
+    USER_DISABLED(1002, "USER_DISABLED", HttpStatus.BAD_REQUEST),
+    INVALID_CREDENTIALS(1003, "INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST),
+    USER_NOT_FOUND(1004, "User Not Found", HttpStatus.BAD_REQUEST);
 
 
     private final int id;

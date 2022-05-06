@@ -18,6 +18,6 @@ public class LoginResponse {
         this.userId = user.getId();
         this.accessToken = user.getAccessToken();
         this.username = user.getUsername();
-//        this.roleName = user.get
+        this.roleName = user.getRole().getName();
     }
 }
