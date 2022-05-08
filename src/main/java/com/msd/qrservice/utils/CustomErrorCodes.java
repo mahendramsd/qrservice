@@ -7,7 +7,9 @@ public enum CustomErrorCodes {
     USER_ROLE_NOT_FOUNT(1001, "User role not found", HttpStatus.BAD_REQUEST),
     USER_DISABLED(1002, "USER_DISABLED", HttpStatus.BAD_REQUEST),
     INVALID_CREDENTIALS(1003, "INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(1004, "User Not Found", HttpStatus.BAD_REQUEST);
+    USER_NOT_FOUND(1004, "User Not Found", HttpStatus.BAD_REQUEST),
+    INVALID_QR_CODE(1005, "Invalid QR Code or Not found", HttpStatus.NOT_FOUND),
+    ADMIN_PERMISSION_REQUIRED(1006, "Admin Permission required for delete Qr Data", HttpStatus.UNAUTHORIZED);
 
 
     private final int id;

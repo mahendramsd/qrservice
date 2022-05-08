@@ -66,11 +66,11 @@ public class UserService implements UserDetailsService {
         } else {
             User newUser = new User();
             newUser.setUsername(userRequest.getUsername());
-
             Optional<Role> role = roleRepository.findById(userRequest.getRoleId());
             if (role.isPresent()) {
                 newUser.setRole(role.get());
                 newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+                newUser.setStatus(Status.ACTIVE);
                 userRepository.save(newUser);
                 logger.debug("User Created, UserName :: {}", newUser.getUsername());
                 return new UserResponse(newUser);

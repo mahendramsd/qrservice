@@ -85,12 +85,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk-s3</artifactId>
-			<version>1.12.9</version>
-		</dependency>
-
-		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.8.0</version>
@@ -114,17 +108,6 @@
 			<version>3.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.14</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.10</version>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
@@ -139,11 +122,24 @@
 			<version>2.8.5</version>
 		</dependency>
 
+
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>3.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>3.3.0</version>
+			</dependency>
+
 		<dependency>
-			<groupId>com.j2html</groupId>
-			<artifactId>j2html</artifactId>
-			<version>1.4.0</version>
+			<groupId>com.googlecode.ez-vcard</groupId>
+			<artifactId>ez-vcard</artifactId>
+			<version>0.11.3</version>
 		</dependency>
+
 
 	</dependencies>
 
