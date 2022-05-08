@@ -34,13 +34,13 @@ public class QrController {
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "Search QR")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header"),
+            @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header",required = true),
             @ApiImplicitParam(name = "Authorization", value = "Generated access token",
-                    paramType = "header")})
+                    paramType = "header",required = true)})
     public ResponseEntity<Void> uploadQRCode(
             @ApiIgnore @RequestAttribute("user-id") Long userId,
-            @RequestParam("file") MultipartFile file,
-            @ApiParam(value = "text/url/vCard")
+            @RequestParam(value = "file",required = true) MultipartFile file,
+            @ApiParam(value = "text/url/vCard", required = true)
             @RequestParam("qrType") String qrType) {
         qrService.uploadQrCode(userId, qrType, file);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -55,7 +55,7 @@ public class QrController {
     @GetMapping(value = "/search")
     @ApiOperation(value = "Search QR", response = QrDetailResponse.class)
     public ResponseEntity<List<QrDetailResponse>> qrCodeSearch(@ApiParam(value = "text/url/vCard")
-                                                               @RequestParam("qrType") String qrType,
+                                                               @RequestParam(value = "qrType", required = true) String qrType,
                                                                @RequestParam("query") String query) {
         return ResponseEntity.ok(qrService.qrSearch(qrType, query));
     }
@@ -69,9 +69,9 @@ public class QrController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete QR")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header"),
+            @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header",required = true),
             @ApiImplicitParam(name = "Authorization", value = "Generated access token",
-                    paramType = "header")})
+                    paramType = "header",required = true)})
     public ResponseEntity<Void> deleteQrCode(
             @ApiIgnore @RequestAttribute("user-id") Long userId,
             @PathVariable("id") Long id) {
