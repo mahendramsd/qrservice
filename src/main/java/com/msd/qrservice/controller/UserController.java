@@ -23,6 +23,12 @@ public class UserController {
     private UserService userService;
 
 
+    /**
+     * Create User API
+     * @param userRequest
+     * @return
+     * @throws Exception
+     */
     @PostMapping
     @ApiOperation(value = "Create User", response = UserResponse.class)
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest)

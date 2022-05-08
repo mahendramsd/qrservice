@@ -1,7 +1,5 @@
 package com.msd.qrservice.controller;
 
-import com.google.zxing.NotFoundException;
-import com.msd.qrservice.domain.QrDetail;
 import com.msd.qrservice.dto.response.QrDetailResponse;
 import com.msd.qrservice.service.QrService;
 import io.swagger.annotations.*;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,6 +24,13 @@ public class QrController {
         this.qrService = qrService;
     }
 
+    /**
+     * QR Code Upload API
+     * @param userId
+     * @param file
+     * @param qrType
+     * @return
+     */
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "Search QR")
     @ApiImplicitParams({
@@ -42,6 +46,12 @@ public class QrController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+     * QR Code Search API
+     * @param qrType
+     * @param query
+     * @return
+     */
     @GetMapping(value = "/search")
     @ApiOperation(value = "Search QR", response = QrDetailResponse.class)
     public ResponseEntity<List<QrDetailResponse>> qrCodeSearch(@ApiParam(value = "text/url/vCard")
@@ -50,6 +60,12 @@ public class QrController {
         return ResponseEntity.ok(qrService.qrSearch(qrType, query));
     }
 
+    /**
+     * QR Code Delete API
+     * @param userId
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete QR")
     @ApiImplicitParams({

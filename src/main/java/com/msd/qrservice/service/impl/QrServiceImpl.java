@@ -9,6 +9,7 @@ import com.msd.qrservice.exception.CustomException;
 import com.msd.qrservice.repositories.QrRepository;
 import com.msd.qrservice.repositories.UserRepository;
 import com.msd.qrservice.service.QrService;
+import com.msd.qrservice.utils.Constants;
 import com.msd.qrservice.utils.CustomErrorCodes;
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
@@ -33,7 +34,6 @@ import com.google.zxing.common.HybridBinarizer;
 
 @Service
 public class QrServiceImpl implements QrService {
-
 
     private static final Logger logger = LoggerFactory.getLogger(QrServiceImpl.class);
 
@@ -88,7 +88,7 @@ public class QrServiceImpl implements QrService {
     @Override
     public void deleteQrCode(Long id, Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent() && user.get().getRole().getId() == 1) {
+        if(user.isPresent() && user.get().getRole().getId() == Constants.USER_ROLE_ADMIN) {
             qrRepository.deleteById(id);
         }else {
             throw new CustomException(CustomErrorCodes.ADMIN_PERMISSION_REQUIRED);

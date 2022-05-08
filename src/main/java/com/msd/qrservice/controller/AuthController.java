@@ -1,6 +1,5 @@
 package com.msd.qrservice.controller;
 
-import com.msd.qrservice.config.SecurityConfig;
 import com.msd.qrservice.dto.request.LoginRequest;
 import com.msd.qrservice.dto.response.LoginResponse;
 import com.msd.qrservice.exception.CustomException;
@@ -32,7 +31,12 @@ public class AuthController {
     private UserService userService;
 
 
-
+    /**
+     * Login API
+     * @param loginRequest
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/login")
     @ApiOperation(value = "User Login", response = LoginResponse.class)
     public LoginResponse authenticateUser(@RequestBody LoginRequest loginRequest)
@@ -48,7 +52,7 @@ public class AuthController {
      * @param password
      * @throws Exception
      */
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
@@ -59,11 +63,4 @@ public class AuthController {
         }
 
     }
-
-
-
-
-
-
-
 }
