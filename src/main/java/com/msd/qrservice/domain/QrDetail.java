@@ -15,7 +15,7 @@ public class QrDetail extends BaseEntityMaster {
     @Enumerated(EnumType.STRING)
     private QrType qrType;
 
-    @Column(name = "data")
+    @Column(name = "data",length = 500)
     private String data;
 
     @Column(name = "file_name")

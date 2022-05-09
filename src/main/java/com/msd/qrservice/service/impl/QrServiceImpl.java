@@ -46,7 +46,7 @@ public class QrServiceImpl implements QrService {
     }
 
     @Override
-    public void uploadQrCode(Long userId, String qrType, MultipartFile file) {
+    public Boolean uploadQrCode(Long userId, String qrType, MultipartFile file) {
         try {
             InputStream inputStream = file.getInputStream();
             BinaryBitmap binaryBitmap
@@ -62,12 +62,12 @@ public class QrServiceImpl implements QrService {
             qrDetail.setFileName(file.getOriginalFilename());
             qrDetail.setStatus(Status.ACTIVE);
 
-            if(QrType.VCARD.equals(QrType.getQrType(qrType))) {
+            if (QrType.VCARD.equals(QrType.getQrType(qrType))) {
                 VCard vcard = Ezvcard.parse(result.getText()).first();
                 String json = Ezvcard.writeJson(vcard).go();
                 logger.debug("vcard Data DATA : {}", json);
                 qrDetail.setData(json);
-            }else {
+            } else {
                 qrDetail.setData(result.getText());
             }
             qrRepository.save(qrDetail);
@@ -75,24 +75,24 @@ public class QrServiceImpl implements QrService {
         } catch (IOException | NotFoundException e) {
             logger.error("vQR Code invalid or not found : {}", file.getOriginalFilename());
             throw new CustomException(CustomErrorCodes.INVALID_QR_CODE);
-
         }
+        return true;
     }
 
     @Override
     public List<QrDetailResponse> qrSearch(String qrType, String query) {
-        List<QrDetail> qrDetails = qrRepository.findByQrTypeAndDataContainingIgnoreCase(QrType.getQrType(qrType),query);
-        return qrDetails.stream().map(QrDetailResponse:: new).collect(Collectors.toList());
+        List<QrDetail> qrDetails = qrRepository.findByQrTypeAndDataContainingIgnoreCase(QrType.getQrType(qrType), query);
+        return qrDetails.stream().map(QrDetailResponse::new).collect(Collectors.toList());
     }
 
     @Override
-    public void deleteQrCode(Long id, Long userId) {
+    public Boolean deleteQrCode(Long id, Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent() && user.get().getRole().getId() == Constants.USER_ROLE_ADMIN) {
+        if (user.isPresent() && user.get().getRole().getId() == Constants.USER_ROLE_ADMIN) {
             qrRepository.deleteById(id);
-        }else {
+            return true;
+        } else {
             throw new CustomException(CustomErrorCodes.ADMIN_PERMISSION_REQUIRED);
         }
-
     }
 }

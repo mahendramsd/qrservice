@@ -1,6 +1,7 @@
 package com.msd.qrservice.controller;
 
 import com.msd.qrservice.dto.response.QrDetailResponse;
+import com.msd.qrservice.dto.response.ResponseDto;
 import com.msd.qrservice.service.QrService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -32,18 +33,18 @@ public class QrController {
      * @return
      */
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @ApiOperation(value = "Search QR")
+    @ApiOperation(value = "Upload QR  Code")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header",required = true),
-            @ApiImplicitParam(name = "Authorization", value = "Generated access token",
+            @ApiImplicitParam(name = "Authorization", value = "Bearer Generated access token",
                     paramType = "header",required = true)})
-    public ResponseEntity<Void> uploadQRCode(
+    public ResponseEntity<ResponseDto> uploadQRCode(
             @ApiIgnore @RequestAttribute("user-id") Long userId,
             @RequestParam(value = "file",required = true) MultipartFile file,
             @ApiParam(value = "text/url/vCard", required = true)
             @RequestParam("qrType") String qrType) {
-        qrService.uploadQrCode(userId, qrType, file);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        ResponseDto responseDto = ResponseDto.success(qrService.uploadQrCode(userId, qrType, file));
+        return ResponseEntity.ok(responseDto);
     }
 
     /**
@@ -54,10 +55,11 @@ public class QrController {
      */
     @GetMapping(value = "/search")
     @ApiOperation(value = "Search QR", response = QrDetailResponse.class)
-    public ResponseEntity<List<QrDetailResponse>> qrCodeSearch(@ApiParam(value = "text/url/vCard")
+    public ResponseEntity<ResponseDto> qrCodeSearch(@ApiParam(value = "text/url/vCard")
                                                                @RequestParam(value = "qrType", required = true) String qrType,
                                                                @RequestParam("query") String query) {
-        return ResponseEntity.ok(qrService.qrSearch(qrType, query));
+        ResponseDto responseDto = ResponseDto.success(qrService.qrSearch(qrType, query));
+        return ResponseEntity.ok(responseDto);
     }
 
     /**
@@ -70,13 +72,13 @@ public class QrController {
     @ApiOperation(value = "Delete QR")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Content-Type", value = "application/json", paramType = "header",required = true),
-            @ApiImplicitParam(name = "Authorization", value = "Generated access token",
+            @ApiImplicitParam(name = "Authorization", value = "Bearer Generated access token",
                     paramType = "header",required = true)})
-    public ResponseEntity<Void> deleteQrCode(
+    public ResponseEntity<ResponseDto> deleteQrCode(
             @ApiIgnore @RequestAttribute("user-id") Long userId,
             @PathVariable("id") Long id) {
-        qrService.deleteQrCode(id, userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        ResponseDto responseDto = ResponseDto.success(qrService.deleteQrCode(id, userId));
+        return ResponseEntity.ok(responseDto);
     }
 
 }

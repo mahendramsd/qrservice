@@ -2,6 +2,7 @@ package com.msd.qrservice.controller;
 
 import com.msd.qrservice.dto.request.LoginRequest;
 import com.msd.qrservice.dto.response.LoginResponse;
+import com.msd.qrservice.dto.response.ResponseDto;
 import com.msd.qrservice.exception.CustomException;
 import com.msd.qrservice.service.UserService;
 import com.msd.qrservice.utils.CustomErrorCodes;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -27,6 +29,7 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private UserService userService;
 
@@ -39,11 +42,11 @@ public class AuthController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "User Login", response = LoginResponse.class)
-    public LoginResponse authenticateUser(@RequestBody LoginRequest loginRequest)
-            throws Exception {
+    public ResponseEntity<ResponseDto> authenticateUser(@RequestBody LoginRequest loginRequest) {
         logger.info("Login endpoint called {}", loginRequest.getUsername());
         authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        return userService.loginUser(loginRequest);
+        ResponseDto responseDto = ResponseDto.success(userService.loginUser(loginRequest));
+        return ResponseEntity.ok(responseDto);
     }
 
     /**

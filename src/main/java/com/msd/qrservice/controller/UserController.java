@@ -1,6 +1,7 @@
 package com.msd.qrservice.controller;
 
 import com.msd.qrservice.dto.request.UserRequest;
+import com.msd.qrservice.dto.response.ResponseDto;
 import com.msd.qrservice.dto.response.UserResponse;
 import com.msd.qrservice.service.UserService;
 import io.swagger.annotations.Api;
@@ -22,7 +23,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     /**
      * Create User API
      * @param userRequest
@@ -30,10 +30,10 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping
-    @ApiOperation(value = "Create User", response = UserResponse.class)
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest)
-            throws Exception {
+    @ApiOperation(value = "Create User", response = ResponseDto.class)
+    public ResponseEntity<ResponseDto> createUser(@RequestBody UserRequest userRequest) {
         logger.info("User Create endpoint called ");
-        return ResponseEntity.ok(userService.createUser(userRequest));
+        ResponseDto responseDto = ResponseDto.success(userService.createUser(userRequest));
+        return ResponseEntity.ok(responseDto);
     }
 }

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface QrService {
 
-    void uploadQrCode(Long userId, String qrType, MultipartFile file);
+    Boolean uploadQrCode(Long userId, String qrType, MultipartFile file);
 
     List<QrDetailResponse> qrSearch(String qrType, String query);
 
-    void deleteQrCode(Long id, Long userId);
+    Boolean deleteQrCode(Long id, Long userId);
 }
